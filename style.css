@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+}
+
+.grid {
+  width: 256px;
+  height: 288px;
+  display: flex;
+  flex-wrap: wrap;
+  border-style: solid;
+}
+
+.grid div {
+  width: 32px;
+  height: 32px;
+}
+
+.floor {
+  background-image: url('img/floor.png');
+}
+
+.wall {
+  background-image: url('img/wall.png');
+}
+
+.worker_dock {
+  background-image: url('img/worker_dock.png');
+}
+
+.worker {
+  background-image: url('img/worker.png');
+}
+
+.dock {
+  background-image: url('img/dock.png');
+}
+
+.box_docked {
+  background-image: url('img/box_docked.png');
+}
+
+.box {
+  background-image: url('img/box.png');
+}
