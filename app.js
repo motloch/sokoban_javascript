@@ -1,20 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
   const scoreDisplay = document.querySelector('#score')
+  var score = 0
 
+  //Description of a level
   const width = 8
   const height = 9
-
-  for (const x of Array(width*height).keys()) {
-	var foo = document.createElement('DIV')
-	grid.appendChild(foo)
-  }
-
-  let squares = Array.from(document.querySelectorAll('.grid div'))
-
-  var score = 0
   var currentPosition = 18
-
   var initial = [
       ['floor', 'floor', 'wall'  , 'wall'      , 'wall' , 'wall' , 'wall' , 'floor'],
       ['wall' , 'wall' , 'wall'  , 'floor'     , 'floor', 'floor', 'wall' , 'floor'],
@@ -27,8 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
       ['wall' , 'wall' , 'wall'  , 'wall'      , 'wall' , 'wall' , 'wall' , 'wall' ]
     ]
 
+  //Create the grid
+	grid.style.width = 32*width + "px";
+	grid.style.height = 32*height + "px";
   for (const x of Array(width*height).keys()) {
-      squares[x].classList.add(initial[Math.floor(x/width)][x%width])
+		var foo = document.createElement('DIV')
+		grid.appendChild(foo)
+  }
+
+  let squares = Array.from(document.querySelectorAll('.grid div'))
+
+  for (const x of Array(width*height).keys()) {
+		squares[x].classList.add(initial[Math.floor(x/width)][x%width])
   }
 
   //assign functions to KeyCodes
