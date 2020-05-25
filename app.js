@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
   const scoreDisplay = document.querySelector('#score')
+  const levelDisplay = document.querySelector('#level')
+	const levelNum = document.querySelector('#pick-level')
+	const levelBtn = document.querySelector('#pick-level-button')
   var score = 0
 	var level = 1
 
@@ -16,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		initial = level_info[level][3]
 
 		//Create the grid
-		grid.style.width = 32*width + "px";
-		grid.style.height = 32*height + "px";
+		grid.style.width = 32*width + 'px';
+		grid.style.height = 32*height + 'px';
 		for (const x of Array(width*height).keys()) {
 			var foo = document.createElement('DIV')
 			grid.appendChild(foo)
@@ -114,11 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if(gameOver) {
-        alert('Well done! Total moves: ' + score)
+        //alert('Well done! Total moves: ' + score)
+				score = 0
+        scoreDisplay.innerHTML = score
 				level += 1
+        levelDisplay.innerHTML = level
+				levelNum.value = level
 				initialize(level)
     }
-
   }
+
+  //add functionality to the button
+  levelBtn.addEventListener('click', () => {
+		level = levelNum.value
+		initialize(level)
+  })
 
 })

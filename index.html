@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang='en' dir='ltr'>
   <head>
-    <meta charset="utf-8">
-	<script src="levels.js" charset="utf-8"></script>
-	<script src="app.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="style.css"></link>
+    <meta charset='utf-8'>
+	<script src='levels.js' charset='utf-8'></script>
+	<script src='app.js' charset='utf-8'></script>
+    <link rel='stylesheet' href='style.css'></link>
     <title>Basic Sokoban</title>
   </head>
   <body>
 
-    <h3>Moves:<span id="score">0</span></h3>
+    <h3>Moves: <span id='score'>0</span></h3>
+    <h3>Level: <span id='level'>1</span></h3>
+	<label for='pick-level'><h3>Choose level (between 1 and 105):</h3></label>
+	<input type = 'number' id='pick-level' name='pick-level' min='1' max='105' value='1'>
+	<button id='pick-level-button'>Go</button>
+	<br>
 
-    <div class="container">
-      <div class="grid">
+    <div class='container'>
+      <div class='grid'>
       </div>
     </div>
 
