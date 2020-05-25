@@ -4,29 +4,33 @@ document.addEventListener('DOMContentLoaded', () => {
   var score = 0
 	var level = 1
 
-	width = level_info[level][0]
-	height = level_info[level][1]
-	currentPosition = level_info[level][2]
-	initial = level_info[level][3]
+  function initialize(lvl) {
+		//Remove old game if there was one
+		squares = Array.from(document.querySelectorAll('.grid div'))
+		squares.forEach(square => grid.removeChild(square))	
 
-	var newScript = document.createElement('script');
-	newScript.type = 'text/javascript';
-	newScript.src = 'level.js';
-	document.getElementsByTagName('head')[0].appendChild(newScript);
+		//Load info
+		width = level_info[level][0]
+		height = level_info[level][1]
+		currentPosition = level_info[level][2]
+		initial = level_info[level][3]
 
-  //Create the grid
-	grid.style.width = 32*width + "px";
-	grid.style.height = 32*height + "px";
-  for (const x of Array(width*height).keys()) {
-		var foo = document.createElement('DIV')
-		grid.appendChild(foo)
-  }
+		//Create the grid
+		grid.style.width = 32*width + "px";
+		grid.style.height = 32*height + "px";
+		for (const x of Array(width*height).keys()) {
+			var foo = document.createElement('DIV')
+			grid.appendChild(foo)
+		}
 
-  let squares = Array.from(document.querySelectorAll('.grid div'))
+		squares = Array.from(document.querySelectorAll('.grid div'))
 
-  for (const x of Array(width*height).keys()) {
-		squares[x].classList.add(initial[Math.floor(x/width)][x%width])
-  }
+		for (const x of Array(width*height).keys()) {
+			squares[x].classList.add(initial[Math.floor(x/width)][x%width])
+		}
+	}
+
+	initialize(level)
 
   //assign functions to KeyCodes
   function control(e) {
@@ -48,42 +52,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Move onto a floor tile?
     if(squares[currentPosition + shift].classList.contains('floor')) {
-        squares[currentPosition + shift].classList.add('worker')
+        squares[currentPosition + shift].classList.add('guy')
         squares[currentPosition + shift].classList.remove('floor')
         moved = true
     //Move onto a dock tile?
     } else if(squares[currentPosition + shift].classList.contains('dock')) {
-        squares[currentPosition + shift].classList.add('worker_dock')
+        squares[currentPosition + shift].classList.add('guy_in')
         squares[currentPosition + shift].classList.remove('dock')
         moved = true
     //Moving a box?
     } else if(squares[currentPosition + shift].classList.contains('box')) {
         //Check we can move the box
         if(squares[currentPosition + 2*shift].classList.contains('floor')) {
-            squares[currentPosition + shift].classList.add('worker')
+            squares[currentPosition + shift].classList.add('guy')
             squares[currentPosition + shift].classList.remove('box')
             squares[currentPosition + 2*shift].classList.add('box')
             squares[currentPosition + 2*shift].classList.remove('floor')
             moved = true
         } else if(squares[currentPosition + 2*shift].classList.contains('dock')) {
-            squares[currentPosition + shift].classList.add('worker')
+            squares[currentPosition + shift].classList.add('guy')
             squares[currentPosition + shift].classList.remove('box')
-            squares[currentPosition + 2*shift].classList.add('box_docked')
+            squares[currentPosition + 2*shift].classList.add('box_in')
             squares[currentPosition + 2*shift].classList.remove('dock')
             moved = true
         }
-    } else if(squares[currentPosition + shift].classList.contains('box_docked')) {
+    } else if(squares[currentPosition + shift].classList.contains('box_in')) {
         //Check we can move the box
         if(squares[currentPosition + 2*shift].classList.contains('floor')) {
-            squares[currentPosition + shift].classList.add('worker_dock')
-            squares[currentPosition + shift].classList.remove('box_docked')
+            squares[currentPosition + shift].classList.add('guy_in')
+            squares[currentPosition + shift].classList.remove('box_in')
             squares[currentPosition + 2*shift].classList.add('box')
             squares[currentPosition + 2*shift].classList.remove('floor')
             moved = true
         } else if(squares[currentPosition + 2*shift].classList.contains('dock')) {
-            squares[currentPosition + shift].classList.add('worker_dock')
-            squares[currentPosition + shift].classList.remove('box_docked')
-            squares[currentPosition + 2*shift].classList.add('box_docked')
+            squares[currentPosition + shift].classList.add('guy_in')
+            squares[currentPosition + shift].classList.remove('box_in')
+            squares[currentPosition + 2*shift].classList.add('box_in')
             squares[currentPosition + 2*shift].classList.remove('dock')
             moved = true
         }
@@ -91,12 +95,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(moved) {
         //Draw an empty dock or floor
-        if(squares[currentPosition].classList.contains('worker')) {
+        if(squares[currentPosition].classList.contains('guy')) {
             squares[currentPosition].classList.add('floor')
-            squares[currentPosition].classList.remove('worker')
-        } else if(squares[currentPosition].classList.contains('worker_dock')) {
+            squares[currentPosition].classList.remove('guy')
+        } else if(squares[currentPosition].classList.contains('guy_in')) {
             squares[currentPosition].classList.add('dock')
-            squares[currentPosition].classList.remove('worker')
+            squares[currentPosition].classList.remove('guy')
         }
         currentPosition += shift
         score += 1
@@ -110,7 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if(gameOver) {
-        alert('Game over! Total moves: ' + score)
+        alert('Well done! Total moves: ' + score)
+				level += 1
+				initialize(level)
     }
 
   }

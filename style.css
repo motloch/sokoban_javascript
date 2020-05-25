@@ -21,11 +21,11 @@
   background-image: url('img/wall.png');
 }
 
-.worker_dock {
+.guy_in {
   background-image: url('img/worker_dock.png');
 }
 
-.worker {
+.guy {
   background-image: url('img/worker.png');
 }
 
@@ -33,7 +33,7 @@
   background-image: url('img/dock.png');
 }
 
-.box_docked {
+.box_in {
   background-image: url('img/box_docked.png');
 }
 
