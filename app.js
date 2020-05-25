@@ -2,22 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
   const scoreDisplay = document.querySelector('#score')
   var score = 0
+	var level = 1
 
-  //Description of a level
-  const width = 8
-  const height = 9
-  var currentPosition = 18
-  var initial = [
-      ['floor', 'floor', 'wall'  , 'wall'      , 'wall' , 'wall' , 'wall' , 'floor'],
-      ['wall' , 'wall' , 'wall'  , 'floor'     , 'floor', 'floor', 'wall' , 'floor'],
-      ['wall' , 'dock' , 'worker', 'box'       , 'floor', 'floor', 'wall' , 'floor'],
-      ['wall' , 'wall' , 'wall'  , 'floor'     , 'box'  , 'dock' , 'wall' , 'floor'],
-      ['wall' , 'dock' , 'wall'  , 'wall'      , 'box'  , 'floor', 'wall' , 'floor'],
-      ['wall' , 'floor', 'wall'  , 'floor'     , 'dock' , 'floor', 'wall' , 'wall' ],
-      ['wall' , 'box'  , 'floor' , 'box_docked', 'box'  , 'box'  , 'dock' , 'wall' ],
-      ['wall' , 'floor', 'floor' , 'floor'     , 'dock' , 'floor', 'floor', 'wall' ],
-      ['wall' , 'wall' , 'wall'  , 'wall'      , 'wall' , 'wall' , 'wall' , 'wall' ]
-    ]
+	width = level_info[level][0]
+	height = level_info[level][1]
+	currentPosition = level_info[level][2]
+	initial = level_info[level][3]
+
+	var newScript = document.createElement('script');
+	newScript.type = 'text/javascript';
+	newScript.src = 'level.js';
+	document.getElementsByTagName('head')[0].appendChild(newScript);
 
   //Create the grid
 	grid.style.width = 32*width + "px";
