@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
-  let squares = Array.from(document.querySelectorAll('.grid div'))
   const scoreDisplay = document.querySelector('#score')
 
   const width = 8
+  const height = 9
+
+  for (const x of Array(width*height).keys()) {
+	var foo = document.createElement('DIV')
+	grid.appendChild(foo)
+  }
+
+  let squares = Array.from(document.querySelectorAll('.grid div'))
 
   var score = 0
   var currentPosition = 18
@@ -20,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ['wall' , 'wall' , 'wall'  , 'wall'      , 'wall' , 'wall' , 'wall' , 'wall' ]
     ]
 
-  for (const x of Array(72).keys()) {
+  for (const x of Array(width*height).keys()) {
       squares[x].classList.add(initial[Math.floor(x/width)][x%width])
   }
 
@@ -100,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     var gameOver = true
-    for (const x of Array(72).keys()) {
+    for (const x of Array(width*height).keys()) {
        if(squares[x].classList.contains('box')) {
         gameOver = false
       }
