@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const levelDisplay = document.querySelector('#level')
 	const levelNum = document.querySelector('#pick-level')
 	const levelBtn = document.querySelector('#pick-level-button')
-  var score = 0
 	var level = 1
 
   function initialize(lvl) {
+		score = 0
+		scoreDisplay.innerHTML = score
+
 		//Remove old game if there was one
 		squares = Array.from(document.querySelectorAll('.grid div'))
 		squares.forEach(square => grid.removeChild(square))	
@@ -118,8 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if(gameOver) {
         //alert('Well done! Total moves: ' + score)
-				score = 0
-        scoreDisplay.innerHTML = score
 				level += 1
         levelDisplay.innerHTML = level
 				levelNum.value = level
@@ -129,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //add functionality to the button
   levelBtn.addEventListener('click', () => {
-		level = levelNum.value
+		level = Number(levelNum.value)
+		levelDisplay.innerHTML = level
 		initialize(level)
   })
 
