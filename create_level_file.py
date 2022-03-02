@@ -1,59 +1,50 @@
 num_levels = 105
 
+# How to translate from the txt encoding
+dictionary = {
+      ' ': "'floor' , ",
+      '*': "'floor' , ",
+      '#': "'wall'  , ",
+      '$': "'box'   , ",
+      '.': "'dock'  , ",
+      '@': "'guy'   , ",
+      '?': "'box_in', ",
+      '+': "'guy_in', ",
+    }
+
 def write_level_info(lvl):
+    """
+    Read in the txt file with the level information and write it into the file f
+    """
     f.write(' //Level ' + str(lvl) + '\n [\n')
 
-    dat = open('levels/' + str(lvl) + '.txt').readlines()[1:]
-    cutted_dat = []
+    dat = open('levels/' + str(lvl) + '.txt').read().splitlines()[1:]
 
-    #cut upper and lower edges
-    for i in range(len(dat)):
-      replaced_line = dat[i].replace('*', '').replace('\n','')
-      if replaced_line != '':
-        cutted_dat.append(dat[i].replace('\n', ''))
+    # Get rid of the empty rows
+    dat = [row for row in dat if row != '*' * len(dat[0])]
 
-    #figure out how many to cut on the left side
-    num_cut = 0
-    cut_on = True
-    while cut_on:
-        for i in range(len(cutted_dat)):
-            if cutted_dat[i][num_cut] != '*':
-                cut_on = False
-        if cut_on:
-            num_cut += 1
+    # Get rid of the extra columns on the left, right
+    while all([row[0] == '*' for row in dat]):
+        dat = [row[1:] for row in dat]
 
-    #cut
-    for i in range(len(cutted_dat)):
-        cutted_dat[i] = cutted_dat[i][num_cut:]
+    while all([row[-1] == '*' for row in dat]):
+        dat = [row[:-1] for row in dat]
 
-    #figure out how many to cut on the right side
-    num_cut = 0
-    cut_on = True
-    while cut_on:
-        for i in range(len(cutted_dat)):
-            if cutted_dat[i][-num_cut-1] != '*':
-                cut_on = False
-        if cut_on:
-            num_cut += 1
-
-    #cut
-    for i in range(len(cutted_dat)):
-        cutted_dat[i] = cutted_dat[i][:-num_cut]
-
-    width = len(cutted_dat[0])
+    # Get width, height and write them to file
+    width = len(dat[0])
+    height = len(dat)
     f.write('  ' + str(width) + ',\n')
-
-    height = len(cutted_dat)
     f.write('  ' + str(height) + ',\n')
 
+    # Find starting positon (we index positions by single integer)
     currentPosition = 0
-    for i in range(len(cutted_dat)):
-        if ('@' in cutted_dat[i]) or ('+' in cutted_dat[i]):
-            pos_guy = cutted_dat[i].find('@')
+    for i in range(len(dat)):
+        if ('@' in dat[i]) or ('+' in dat[i]):
+            pos_guy = dat[i].find('@')
             if pos_guy != -1:
                 currentPosition += pos_guy
             else:
-                pos_guy_in = cutted_dat[i].find('+')
+                pos_guy_in = dat[i].find('+')
                 currentPosition += pos_guy_in
             break
         else:
@@ -62,16 +53,11 @@ def write_level_info(lvl):
 
     f.write('  [\n')
 
-    for i in range(len(cutted_dat)):
-      cutted_dat[i] = cutted_dat[i].replace(' ', "'floor' , ")
-      cutted_dat[i] = cutted_dat[i].replace('*', "'floor' , ")
-      cutted_dat[i] = cutted_dat[i].replace('#', "'wall'  , ")
-      cutted_dat[i] = cutted_dat[i].replace('$', "'box'   , ")
-      cutted_dat[i] = cutted_dat[i].replace('.', "'dock'  , ")
-      cutted_dat[i] = cutted_dat[i].replace('@', "'guy'   , ")
-      cutted_dat[i] = cutted_dat[i].replace('?', "'box_in', ")
-      cutted_dat[i] = cutted_dat[i].replace('+', "'guy_in', ")
-      f.write('  [' + cutted_dat[i][:-2] + '],\n') #ignore the last comma
+    # Write out the level
+    for i in range(len(dat)):
+      for k in dictionary:
+        dat[i] = dat[i].replace(k, dictionary[k])
+      f.write('  [' + dat[i][:-2] + '],\n') #ignore the last comma
 
     f.write('  ]\n')
 
