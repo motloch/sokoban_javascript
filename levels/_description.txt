@@ -1,0 +1,7 @@
+case '#': //Wall
+case '$': //Box
+case '.': //Goal
+case '@': //Player
+case '?': //Box on goal
+case '+': //Player on goal
+case ' ': //Empty
